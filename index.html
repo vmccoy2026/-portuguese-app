@@ -10,11 +10,11 @@
         
         /* --- СТИЛИ СТАРТОВОГО ЭКРАНА --- */
         #welcome-screen {
-    text-align: center; padding: 40px 20px; margin: -20px; /* Убирает белые поля */
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg') no-repeat center center;
-    background-size: cover; border-radius: 15px; color: white; min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-}
+            text-align: center; padding: 40px 20px; margin: -20px;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg') no-repeat center center;
+            background-size: cover; border-radius: 15px; color: white; min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
         #welcome-screen h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); margin-bottom: 10px; }
         #welcome-screen p { font-size: 18px; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); margin-bottom: 30px; }
         #welcome-screen button {
@@ -100,7 +100,7 @@
             font-size: 14px !important; padding: 8px 16px !important;
             display: block; margin-left: auto; margin-right: auto;
         }
-        #result, #result-build { margin-top: 20px; font-size: 20px; font-weight: bold; min-height: 30px; text-align: center; }
+        #result, #result-build, #result2 { margin-top: 20px; font-size: 20px; font-weight: bold; min-height: 30px; text-align: center; }
     </style>
 </head>
 <body>
@@ -126,9 +126,9 @@
                         <div class="node-icon">1</div>
                         <span class="node-label">Урок 1. Алфавит</span>
                     </div>
-                    <div class="lesson-node active" onclick="openBuildLesson()" style="border-color: #009c3b;">
+                    <div class="lesson-node active" onclick="openScreen('theory-2')" style="border-color: #009c3b;">
                         <div class="node-icon">2</div>
-                        <span class="node-label">Урок 2. Сборка фразы</span>
+                        <span class="node-label">Урок 2. Гласные</span>
                     </div>
                 </div>
             </div>
@@ -169,25 +169,42 @@
             <button class="back-btn" onclick="goBack()">← Назад к карте</button>
         </div>
 
-        <!-- ЭКРАН 4: УРОК 2 (СБОРКА) -->
-        <div id="build-lesson" class="screen">
-            <h1>Урок 2: Сборка фразы</h1>
-            <p style="text-align: center;">Собери предложение: <strong>«Я студент»</strong></p>
-            <div class="sentence-area" id="sentence-area"></div>
-            <div class="word-bank" id="word-bank">
-                <div class="word-chip" onclick="addWord('Eu', this)">Eu</div>
-                <div class="word-chip" onclick="addWord('sou', this)">sou</div>
-                <div class="word-chip" onclick="addWord('estudante', this)">estudante</div>
-                <div class="word-chip" onclick="addWord('você', this)">você</div>
+        <!-- ЭКРАН 4: ТЕОРИЯ УРОКА 2 -->
+        <div id="theory-2" class="screen">
+            <h1>Урок 2. Гласные в ударной позиции</h1>
+            <div class="theory-text">
+                <p><strong>Цель:</strong> научиться различать и правильно произносить португальские гласные под ударением.</p>
+                <p>В ударной позиции каждый гласный звук в португальском произносится чётко. Особенно важны различия между E/É, O/Ó, и A — они часто определяют смысл слова.</p>
+                <table>
+                    <tr><th>Буква</th><th>Звук</th><th>Пример</th><th>Перевод</th></tr>
+                    <tr><td>A</td><td>[a]</td><td>casa</td><td>дом</td></tr>
+                    <tr><td>E</td><td>[e]/[ə]</td><td>bebê</td><td>младенец</td></tr>
+                    <tr><td>I</td><td>[i]</td><td>livro</td><td>книга</td></tr>
+                    <tr><td>O</td><td>[o]/[õ]</td><td>avó</td><td>бабушка</td></tr>
+                    <tr><td>U</td><td>[y]</td><td>urso</td><td>медведь</td></tr>
+                </table>
             </div>
-            <button class="action-btn" onclick="checkBuild()">Проверить</button>
-            <div id="result-build"></div>
+            <button class="action-btn" onclick="openAudioLesson2()">Перейти к практике →</button>
+            <button class="back-btn" onclick="goBack()">← Назад к карте</button>
+        </div>
+
+        <!-- ЭКРАН 5: ПРАКТИКА УРОКА 2 (АУДИРОВАНИЕ) -->
+        <div id="audio-lesson-2" class="screen">
+            <h1>Практика: Гласные</h1>
+            <p style="text-align: center;">Послушай слово и выбери правильный перевод.</p>
+            <button class="audio-btn" onclick="playSound('Livro')">🔊</button>
+            <div>
+                <button class="audio-option" onclick="checkAudio2('Книга')">Книга</button>
+                <button class="audio-option" onclick="checkAudio2('Дом')">Дом</button>
+                <button class="audio-option" onclick="checkAudio2('Мяч')">Мяч</button>
+            </div>
+            <div id="result2"></div>
             <button class="back-btn" onclick="goBack()">← Назад к карте</button>
         </div>
 
     </div>
 
-<script>
+    <script>
         // --- ЛОГИКА СТАРТОВОГО ЭКРАНА ---
         function startLearning() {
             document.getElementById('welcome-screen').style.display = 'none';
@@ -206,6 +223,7 @@
             document.getElementById('map-screen').style.display = 'block';
             document.getElementById('result').innerHTML = '';
             document.getElementById('result-build').innerHTML = '';
+            document.getElementById('result2').innerHTML = '';
         }
 
         function openAudioLesson() {
@@ -213,7 +231,7 @@
             document.getElementById('result').innerHTML = '';
         }
 
-        // --- ЛОГИКА АУДИРОВАНИЯ ---
+        // --- ЛОГИКА АУДИРОВАНИЯ (УРОК 1) ---
         function playSound(word) {
             if ('speechSynthesis' in window) {
                 const utterance = new SpeechSynthesisUtterance(word);
@@ -238,43 +256,24 @@
             }
         }
 
-        // --- ЛОГИКА СБОРКИ СЛОВ (УРОК 2) ---
-        function openBuildLesson() {
-            openScreen('build-lesson');
-            document.getElementById('sentence-area').innerHTML = '';
-            const bank = document.getElementById('word-bank');
-            bank.innerHTML = `
-                <div class="word-chip" onclick="addWord('Eu', this)">Eu</div>
-                <div class="word-chip" onclick="addWord('sou', this)">sou</div>
-                <div class="word-chip" onclick="addWord('estudante', this)">estudante</div>
-                <div class="word-chip" onclick="addWord('você', this)">você</div>
-            `;
-            document.getElementById('result-build').innerHTML = '';
+        // --- ЛОГИКА УРОКА 2 (ГЛАСНЫЕ) ---
+        function openAudioLesson2() {
+            openScreen('audio-lesson-2');
+            document.getElementById('result2').innerHTML = '';
         }
 
-        function addWord(word, element) {
-            const sentenceArea = document.getElementById('sentence-area');
-            const newChip = document.createElement('div');
-            newChip.className = 'word-chip';
-            newChip.innerText = word;
-            newChip.onclick = function() {
-                this.remove();
-                element.style.display = 'inline-block';
-            };
-            sentenceArea.appendChild(newChip);
-            element.style.display = 'none';
-        }
-
-        function checkBuild() {
-            const sentenceArea = document.getElementById('sentence-area');
-            const words = Array.from(sentenceArea.children).map(chip => chip.innerText);
-            const resultDiv = document.getElementById('result-build');
-            const correctSentence = "Eu sou estudante";
-
-            if (words.join(' ') === correctSentence) {
-                resultDiv.innerHTML = '✅ <span style="color: green;">Отлично! Фраза собрана верно.</span>';
+        function checkAudio2(selectedWord) {
+            const resultDiv = document.getElementById('result2');
+            if (selectedWord === 'Книга') {
+                resultDiv.innerHTML = '✅ <span style="color: green;">Muito bem! (Отлично!)</span>';
             } else {
-                resultDiv.innerHTML = '❌ <span style="color: red;">Пока неверно. Попробуй еще раз!</span>';
+                resultDiv.innerHTML = `
+                    ❌ <span style="color: red;">Неправильно.</span><br>
+                    <span style="font-size: 16px; color: #333;">
+                        Правильный ответ: <strong>Livro (Книга)</strong>.<br>
+                        <em>Помни: слово "livro" означает "книга".</em>
+                    </span>
+                `;
             }
         }
     </script>
