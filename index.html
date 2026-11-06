@@ -33,6 +33,9 @@
 </head>
 <body>
     <div class="app-container">
+        <div style="text-align: center; margin-bottom: 20px;">
+    <button class="btn" onclick="openPDF()" style="background-color: #002776; color: white; margin-top: 0;">📖 Открыть учебник (PDF)</button>
+</div>
         <h1 style="text-align: center; color: #009c3b;">Португальский Бразилии</h1>
         <p style="text-align: center; color: #666;">Уровень A1-A2 • Самоучитель XXI века</p>
 
@@ -145,6 +148,24 @@
                 resultDiv.innerHTML = '❌ <span style="color: red;">Неправильно. Попробуй еще раз!</span>';
             }
         }
+        function openPDF() {
+    document.querySelector('.app-container').style.display = 'none';
+    document.getElementById('pdf-screen').style.display = 'block';
+    window.scrollTo(0, 0);
+}
+
+function closePDF() {
+    document.getElementById('pdf-screen').style.display = 'none';
+    document.querySelector('.app-container').style.display = 'block';
+    window.scrollTo(0, 0);
+}
     </script>
+    <!-- ЭКРАН С PDF УЧЕБНИКОМ -->
+<div id="pdf-screen" class="theory-screen" style="display: none; padding: 0; background: #333;">
+    <div style="background: #002776; padding: 10px; text-align: center;">
+        <button class="btn" onclick="closePDF()" style="background-color: #ffdf00; color: #333; margin: 0; padding: 10px; font-size: 16px;">← Закрыть учебник</button>
+    </div>
+    <iframe src="MyPortugal.pdf" style="width: 100%; height: 85vh; border: none;"></iframe>
+</div>
 </body>
 </html>
