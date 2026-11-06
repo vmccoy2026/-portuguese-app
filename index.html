@@ -302,6 +302,13 @@
                 selectedRight = null;
             }
         }
+        // --- ЛОГИКА ТЕОРИИ ---
+function startTheory() {
+    document.getElementById('lesson1-menu').style.display = 'none';
+    document.getElementById('theory-screen').style.display = 'block';
+    document.getElementById('theory-content').innerHTML = currentLessonData.theory;
+    window.scrollTo(0, 0);
+}
     </script>
 </body>
 </html>
