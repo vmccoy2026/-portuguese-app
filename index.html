@@ -10,11 +10,11 @@
         
         /* --- СТИЛИ СТАРТОВОГО ЭКРАНА --- */
         #welcome-screen {
-            text-align: center; padding: 40px 20px; 
-            background: url('https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg') no-repeat center center;
-            background-size: cover; border-radius: 15px; color: white; min-height: 80vh; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
+    text-align: center; padding: 40px 20px; margin: -20px; /* Убирает белые поля */
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://upload.wikimedia.org/wikipedia/en/0/05/Flag_of_Brazil.svg') no-repeat center center;
+    background-size: cover; border-radius: 15px; color: white; min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+}
         #welcome-screen h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); margin-bottom: 10px; }
         #welcome-screen p { font-size: 18px; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); margin-bottom: 30px; }
         #welcome-screen button {
