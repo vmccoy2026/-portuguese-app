@@ -160,7 +160,8 @@
             const optionsContainer = document.getElementById('step1-options');
             optionsContainer.innerHTML = '';
             
-            question.options.forEach(option => {
+            const shuffledOptions = [...question.options].sort(() => Math.random() - 0.5);
+shuffledOptions.forEach(option => {
                 const btn = document.createElement('button');
                 btn.className = 'btn';
                 btn.style.backgroundColor = 'white';
