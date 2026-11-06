@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Португальский Бразилии</title>
+    <style>
+        /* --- ОБЩИЕ СТИЛИ --- */
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6; color: #333;
+        }
+        .app-container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        
+        /* --- СТИЛИ КАРТЫ --- */
+        .app-header { text-align: center; margin-bottom: 30px; padding-bottom: 10px; border-bottom: 2px solid #ffdf00; }
+        .app-header h1 { color: #009c3b; margin: 0; font-size: 24px; }
+        .app-header p { color: #002776; font-size: 14px; margin: 5px 0 0 0; }
+        .map-section h2 { font-size: 18px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        .lesson-path { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        
+        .lesson-node {
+            display: flex; align-items: center; width: 100%; max-width: 400px;
+            padding: 15px; border-radius: 15px; background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s; border: 2px solid transparent;
+        }
+        .lesson-node:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+        .lesson-node.active { border-color: #ffdf00; }
+        .lesson-node.locked { opacity: 0.6; cursor: not-allowed; background: #e0e0e0; }
+        
+        .node-icon {
+            width: 40px; height: 40px; border-radius: 50%; display: flex;
+            justify-content: center; align-items: center; font-size: 18px;
+            font-weight: bold; color: white; margin-right: 15px; flex-shrink: 0;
+        }
+        .active .node-icon { background-color: #009c3b; }
+        .locked .node-icon { background-color: #999; }
+        .node-label { font-size: 16px; font-weight: 500; }
+
+        /* --- СТИЛИ ЭКРАНОВ УРОКОВ --- */
+        .screen {
+            display: none; 
+            background: white; padding: 20px; border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;
+        }
+        .screen h1 { color: #009c3b; }
+        
+        /* Стили для аудирования */
+        .audio-option {
+            display: block; width: 100%; padding: 15px; margin: 10px 0;
+            font-size: 18px; border: 2px solid #ffdf00; border-radius: 10px;
+            background: white; cursor: pointer; transition: background 0.2s;
+        }
+        .audio-option:hover { background: #fff9e6; }
+        .audio-btn {
+            background-color: #002776; color: white; border: none;
+            padding: 15px; border-radius: 50%; cursor: pointer;
+            font-size: 24px; margin-bottom: 20px;
+        }
+
+        /* Стили для сборки слов */
+        .word-bank {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+            margin-bottom: 20px; min-height: 50px; border-bottom: 2px dashed #ccc; padding-bottom: 10px;
+        }
+        .word-chip {
+            padding: 10px 15px; background: #e0f2f1; border: 1px solid #009c3b;
+            border-radius: 20px; cursor: pointer; font-size: 16px;
+        }
+        .word-chip:hover { background: #b2dfdb; }
+        .sentence-area {
+            min-height: 50px; border: 2px solid #ffdf00; border-radius: 10px;
+            padding: 10px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px;
+        }
+        .check-btn {
+            background-color: #009c3b; color: white; border: none; padding: 12px 24px;
+            font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer;
+        }
+
+        .back-btn {
+            background-color: #999 !important; margin-top: 20px !important;
+            font-size: 14px !important; padding: 8px 16px !important;
+        }
+        #result, #result-build { margin-top: 20px; font-size: 20px; font-weight: bold; min-height: 30px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- ЭКРАН 1: КАРТА УРОКОВ -->
+        <div id="map-screen" class="screen" style="display: block;">
+            <header class="app-header">
+                <h1>Португальский Бразилии</h1>
+                <p>Уровень A1-A2 • Самоучитель XXI века</p>
+            </header>
+            <div class="map-section">
+                <h2>Вводно-фонетический курс</h2>
+                <div class="lesson-path">
+                    <div class="lesson-node active" onclick="openLesson('audio-lesson')">
+                        <div class="node-icon">1</div>
+                        <span class="node-label">Урок 1. Аудирование</span>
+                    </div>
+                    <div class="lesson-node active" onclick="openLesson('build-lesson')" style="border-color: #009c3b;">
+                        <div class="node-icon">2</div>
+                        <span class="node-label">Урок 2. Сборка фразы</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ЭКРАН 2: УРОК АУДИРОВАНИЯ -->
+        <div id="audio-lesson" class="screen">
+            <h1>Урок 1: Аудирование</h1>
+            <p>Послушай слово и выбери правильный перевод.</p>
+            <button class="audio-btn" onclick="playSound('Amigo')">🔊</button>
+            <div>
+                <button class="audio-option" onclick="checkAudio('Amigo')">Друг</button>
+                <button class="audio-option" onclick="checkAudio('Casa')">Дом</button>
+                <button class="audio-option" onclick="checkAudio('Bola')">Мяч</button>
+            </div>
+            <div id="result"></div>
+            <button class="back-btn" onclick="goBack()">← Назад к карте</button>
+        </div>
+
+        <!-- ЭКРАН 3: УРОК СБОРКИ -->
+        <div id="build-lesson" class="screen">
+            <h1>Урок 2: Сборка фразы</h1>
+            <p>Собери предложение: <strong>«Я студент»</strong></p>
+            
+            <div class="sentence-area" id="sentence-area"></div>
+            
+            <div class="word-bank" id="word-bank">
+                <div class="word-chip" onclick="addWord('Eu', this)">Eu</div>
+                <div class="word-chip" onclick="addWord('sou', this)">sou</div>
+                <div class="word-chip" onclick="addWord('estudante', this)">estudante</div>
+                <div class="word-chip" onclick="addWord('você', this)">você</div>
+            </div>
+            
+            <button class="check-btn" onclick="checkBuild()">Проверить</button>
+            <div id="result-build"></div>
+            <button class="back-btn" onclick="goBack()">← Назад к карте</button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- НАВИГАЦИЯ И СБРОС ---
+        function openLesson(lessonId) {
+            document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+            document.getElementById(lessonId).style.display = 'block';
+            
+            // Полный сброс для урока сборки
+            if (lessonId === 'build-lesson') {
+                document.getElementById('sentence-area').innerHTML = '';
+                const bank = document.getElementById('word-bank');
+                bank.innerHTML = `
+                    <div class="word-chip" onclick="addWord('Eu', this)">Eu</div>
+                    <div class="word-chip" onclick="addWord('sou', this)">sou</div>
+                    <div class="word-chip" onclick="addWord('estudante', this)">estudante</div>
+                    <div class="word-chip" onclick="addWord('você', this)">você</div>
+                `;
+            }
+            // Сброс для аудирования
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('result-build').innerHTML = '';
+        }
+
+        function goBack() {
+            document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+            document.getElementById('map-screen').style.display = 'block';
+        }
+
+        // --- ЛОГИКА АУДИРОВАНИЯ ---
+        function playSound(word) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'pt-BR';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function checkAudio(selectedWord) {
+            const resultDiv = document.getElementById('result');
+            if (selectedWord === 'Amigo') {
+                resultDiv.innerHTML = '✅ <span style="color: green;">Muito bem! (Отлично!)</span>';
+            } else {
+                resultDiv.innerHTML = `
+                    ❌ <span style="color: red;">Неправильно.</span><br>
+                    <span style="font-size: 16px; color: #333;">
+                        Правильный ответ: <strong>Amigo (Друг)</strong>.<br>
+                        <em>Помни: в португальском слово "amigo" означает "друг".</em>
+                    </span>
+                `;
+            }
+        }
+
+        // --- ЛОГИКА СБОРКИ СЛОВ ---
+        function addWord(word, element) {
+            const sentenceArea = document.getElementById('sentence-area');
+            const newChip = document.createElement('div');
+            newChip.className = 'word-chip';
+            newChip.innerText = word;
+            // Клик по слову в предложении возвращает его обратно в банк
+            newChip.onclick = function() {
+                this.remove();
+                element.style.display = 'inline-block'; // Возвращаем в банк
+            };
+            sentenceArea.appendChild(newChip);
+            element.style.display = 'none'; // Скрываем из банка
+        }
+
+        function checkBuild() {
+            const sentenceArea = document.getElementById('sentence-area');
+            const words = Array.from(sentenceArea.children).map(chip => chip.innerText);
+            const resultDiv = document.getElementById('result-build');
+            const correctSentence = "Eu sou estudante";
+
+            if (words.join(' ') === correctSentence) {
+                resultDiv.innerHTML = '✅ <span style="color: green;">Отлично! Фраза собрана верно.</span>';
+            } else {
+                resultDiv.innerHTML = '❌ <span style="color: red;">Пока неверно. Попробуй еще раз!</span>';
+            }
+        }
+    </script>
+</body>
+</html>
