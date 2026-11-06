@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Португальский Бразилии</title>
@@ -54,7 +51,8 @@
             <button class="btn" onclick="alert('Урок 2 скоро появится!')">Начать урок</button>
         </div>
     </div>
-        <!-- ЭКРАН СО СПИСКОМ ШАГОВ УРОКА 1 -->
+
+    <!-- ЭКРАН СО СПИСКОМ ШАГОВ УРОКА 1 -->
     <div id="lesson1-menu" class="theory-screen" style="display: none;">
         <h1>Урок 1. Первые слова</h1>
         <p style="text-align: center; color: #666;">Пройди все шаги, чтобы завершить урок</p>
@@ -111,51 +109,14 @@
         <p style="text-align: center; color: #666;">Выбери правильный перевод слова</p>
         
         <div style="text-align: center; margin: 30px 0;">
-            <h2 style="font-size: 32px; color: #333; margin-bottom: 20px;">Привет</h2>
+            <h2 id="step1-word" style="font-size: 32px; color: #333; margin-bottom: 20px;">Привет</h2>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-            <button class="btn" onclick="checkStep1('Olá')" style="background-color: white; border: 2px solid #ffdf00; color: #333;">Olá</button>
-            <button class="btn" onclick="checkStep1('Tudo bem')" style="background-color: white; border: 2px solid #ffdf00; color: #333;">Tudo bem</button>
-            <button class="btn" onclick="checkStep1('Obrigado')" style="background-color: white; border: 2px solid #ffdf00; color: #333;">Obrigado</button>
-            <button class="btn" onclick="checkStep1('Prazer')" style="background-color: white; border: 2px solid #ffdf00; color: #333;">Prazer</button>
+        <div id="step1-options" style="display: flex; flex-direction: column; gap: 10px;">
+            <!-- Кнопки будут добавляться сюда через JavaScript -->
         </div>
 
         <div id="step1-result" style="text-align: center; font-weight: bold; margin-top: 20px; min-height: 30px;"></div>
         
         <button class="btn" onclick="openLessonMenu()" style="background-color: #999; color: white; margin-top: 20px;">← Назад к шагам</button>
     </div>
-
-    <script>
-        function openLessonMenu() {
-            document.querySelectorAll('.theory-screen').forEach(s => s.style.display = 'none');
-            document.querySelector('.app-container').style.display = 'none';
-            document.getElementById('lesson1-menu').style.display = 'block';
-            window.scrollTo(0, 0);
-        }
-
-        function goBack() {
-            document.querySelectorAll('.theory-screen').forEach(s => s.style.display = 'none');
-            document.getElementById('lesson1-menu').style.display = 'none';
-            document.querySelector('.app-container').style.display = 'block';
-            window.scrollTo(0, 0);
-        }
-
-        function startStep1() {
-            document.getElementById('lesson1-menu').style.display = 'none';
-            document.getElementById('step1-screen').style.display = 'block';
-            document.getElementById('step1-result').innerHTML = '';
-            window.scrollTo(0, 0);
-        }
-
-        function checkStep1(selectedWord) {
-            const resultDiv = document.getElementById('step1-result');
-            if (selectedWord === 'Olá') {
-                resultDiv.innerHTML = '✅ <span style="color: green;">Muito bem! (Отлично!)</span>';
-            } else {
-                resultDiv.innerHTML = '❌ <span style="color: red;">Неправильно. Попробуй еще раз!</span>';
-            }
-        }
-    </script>
-</body>
-</html>
