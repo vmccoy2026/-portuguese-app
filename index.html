@@ -71,6 +71,7 @@
         <div class="step-card" style="border-left-color: #ffdf00;">
             <h3>Мэтчинг</h3>
             <p>Закрепляйте изученные слова</p>
+            <button class="btn" onclick="startMatching()" style="margin-top: 10px; background-color: #ffdf00; color: #333;">Начать мэтчинг</button>
         </div>
 
         <div class="step-card" style="border-left-color: #002776;">
@@ -120,7 +121,27 @@
         
         <button class="btn" onclick="openLessonMenu()" style="background-color: #999; color: white; margin-top: 20px;">← Назад к шагам</button>
     </div>
-        <script>
+
+    <!-- ЭКРАН МЭТЧИНГА -->
+    <div id="matching-screen" class="theory-screen" style="display: none;">
+        <h1>Мэтчинг</h1>
+        <p style="text-align: center; color: #666;">Нажми на слово, затем на его перевод</p>
+        
+        <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+            <div id="match-left" style="display: flex; flex-direction: column; gap: 10px; width: 45%;">
+                <!-- Слова будут добавляться через JS -->
+            </div>
+            <div id="match-right" style="display: flex; flex-direction: column; gap: 10px; width: 45%;">
+                <!-- Переводы будут добавляться через JS -->
+            </div>
+        </div>
+
+        <div id="match-result" style="text-align: center; font-weight: bold; margin-top: 20px; min-height: 30px;"></div>
+        
+        <button class="btn" onclick="openLessonMenu()" style="background-color: #999; color: white; margin-top: 20px;">← Назад к шагам</button>
+    </div>
+
+    <script>
         // --- НАВИГАЦИЯ ---
         function openLessonMenu() {
             document.querySelectorAll('.theory-screen').forEach(s => s.style.display = 'none');
@@ -161,7 +182,7 @@
             optionsContainer.innerHTML = '';
             
             const shuffledOptions = [...question.options].sort(() => Math.random() - 0.5);
-shuffledOptions.forEach(option => {
+            shuffledOptions.forEach(option => {
                 const btn = document.createElement('button');
                 btn.className = 'btn';
                 btn.style.backgroundColor = 'white';
@@ -176,33 +197,111 @@ shuffledOptions.forEach(option => {
         }
 
         function checkStep1(selectedWord, correctWord) {
-    const resultDiv = document.getElementById('step1-result');
-    if (selectedWord === correctWord) {
-        resultDiv.innerHTML = '✅ <span style="color: green;">Muito bem! (Отлично!)</span>';
-        
-        // Создаем кнопку "Следующий вопрос"
-        const nextBtn = document.createElement('button');
-        nextBtn.className = 'btn';
-        nextBtn.style.backgroundColor = '#009c3b';
-        nextBtn.style.color = 'white';
-        nextBtn.style.marginTop = '15px';
-        nextBtn.innerText = 'Следующий вопрос →';
-        
-        nextBtn.onclick = () => {
-            currentStep1Index++;
-            if (currentStep1Index < step1Questions.length) {
-                renderStep1Question();
+            const resultDiv = document.getElementById('step1-result');
+            if (selectedWord === correctWord) {
+                resultDiv.innerHTML = '✅ <span style="color: green;">Muito bem! (Отлично!)</span>';
+                
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'btn';
+                nextBtn.style.backgroundColor = '#009c3b';
+                nextBtn.style.color = 'white';
+                nextBtn.style.marginTop = '15px';
+                nextBtn.innerText = 'Следующий вопрос →';
+                
+                nextBtn.onclick = () => {
+                    currentStep1Index++;
+                    if (currentStep1Index < step1Questions.length) {
+                        renderStep1Question();
+                    } else {
+                        resultDiv.innerHTML = '🎉 <span style="color: green;">Поздравляем! Вы прошли все слова!</span>';
+                    }
+                };
+                resultDiv.appendChild(nextBtn);
             } else {
-                resultDiv.innerHTML = '🎉 <span style="color: green;">Поздравляем! Вы прошли все слова!</span>';
+                resultDiv.innerHTML = '❌ <span style="color: red;">Неправильно. Попробуй еще раз!</span>';
             }
-        };
-        
-        // Добавляем кнопку после результата
-        resultDiv.appendChild(nextBtn);
-    } else {
-        resultDiv.innerHTML = '❌ <span style="color: red;">Неправильно. Попробуй еще раз!</span>';
-    }
-}
+        }
+
+        // --- ЛОГИКА МЭТЧИНГА ---
+        const matchPairs = [
+            { pt: 'Olá', ru: 'Привет' },
+            { pt: 'Tudo bem', ru: 'Как дела?' },
+            { pt: 'Obrigado', ru: 'Спасибо' },
+            { pt: 'Prazer', ru: 'Приятно' }
+        ];
+        let selectedLeft = null;
+        let selectedRight = null;
+
+        function startMatching() {
+            document.getElementById('lesson1-menu').style.display = 'none';
+            document.getElementById('matching-screen').style.display = 'block';
+            document.getElementById('match-result').innerHTML = '';
+            selectedLeft = null;
+            selectedRight = null;
+            renderMatching();
+            window.scrollTo(0, 0);
+        }
+
+        function renderMatching() {
+            const leftContainer = document.getElementById('match-left');
+            const rightContainer = document.getElementById('match-right');
+            leftContainer.innerHTML = '';
+            rightContainer.innerHTML = '';
+
+            const shuffledPt = [...matchPairs].sort(() => Math.random() - 0.5);
+            const shuffledRu = [...matchPairs].sort(() => Math.random() - 0.5);
+
+            shuffledPt.forEach(pair => {
+                const btn = document.createElement('button');
+                btn.className = 'btn';
+                btn.style.backgroundColor = 'white';
+                btn.style.border = '2px solid #009c3b';
+                btn.style.color = '#333';
+                btn.innerText = pair.pt;
+                btn.onclick = () => selectMatch(pair.pt, btn, 'left');
+                leftContainer.appendChild(btn);
+            });
+
+            shuffledRu.forEach(pair => {
+                const btn = document.createElement('button');
+                btn.className = 'btn';
+                btn.style.backgroundColor = 'white';
+                btn.style.border = '2px solid #ffdf00';
+                btn.style.color = '#333';
+                btn.innerText = pair.ru;
+                btn.onclick = () => selectMatch(pair.ru, btn, 'right');
+                rightContainer.appendChild(btn);
+            });
+        }
+
+        function selectMatch(word, element, side) {
+            if (side === 'left') {
+                selectedLeft = { word: word, element: element };
+                element.style.backgroundColor = '#b2dfdb';
+            } else {
+                selectedRight = { word: word, element: element };
+                element.style.backgroundColor = '#fff9e6';
+            }
+
+            if (selectedLeft && selectedRight) {
+                const pair = matchPairs.find(p => p.pt === selectedLeft.word);
+                if (pair && pair.ru === selectedRight.word) {
+                    selectedLeft.element.style.backgroundColor = '#009c3b';
+                    selectedLeft.element.style.color = 'white';
+                    selectedRight.element.style.backgroundColor = '#009c3b';
+                    selectedRight.element.style.color = 'white';
+                    selectedLeft.element.disabled = true;
+                    selectedRight.element.disabled = true;
+                    document.getElementById('match-result').innerHTML = '✅ <span style="color: green;">Пара найдена!</span>';
+                } else {
+                    document.getElementById('match-result').innerHTML = '❌ <span style="color: red;">Неверно. Попробуй еще раз!</span>';
+                    selectedLeft.element.style.backgroundColor = 'white';
+                    selectedRight.element.style.backgroundColor = 'white';
+                }
+                selectedLeft = null;
+                selectedRight = null;
+            }
+        }
     </script>
 </body>
 </html>
