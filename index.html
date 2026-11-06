@@ -120,3 +120,77 @@
         
         <button class="btn" onclick="openLessonMenu()" style="background-color: #999; color: white; margin-top: 20px;">← Назад к шагам</button>
     </div>
+        <script>
+        // --- НАВИГАЦИЯ ---
+        function openLessonMenu() {
+            document.querySelectorAll('.theory-screen').forEach(s => s.style.display = 'none');
+            document.querySelector('.app-container').style.display = 'none';
+            document.getElementById('lesson1-menu').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function goBack() {
+            document.querySelectorAll('.theory-screen').forEach(s => s.style.display = 'none');
+            document.getElementById('lesson1-menu').style.display = 'none';
+            document.querySelector('.app-container').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        // --- ЛОГИКА ТЕСТА (ШАГ 1) ---
+        const step1Questions = [
+            { ru: 'Привет', pt: 'Olá', options: ['Olá', 'Tudo bem', 'Obrigado', 'Prazer'] },
+            { ru: 'Как дела?', pt: 'Tudo bem', options: ['Olá', 'Tudo bem', 'Obrigado', 'Prazer'] },
+            { ru: 'Спасибо', pt: 'Obrigado', options: ['Olá', 'Tudo bem', 'Obrigado', 'Prazer'] },
+            { ru: 'Приятно познакомиться', pt: 'Prazer', options: ['Olá', 'Tudo bem', 'Obrigado', 'Prazer'] }
+        ];
+        let currentStep1Index = 0;
+
+        function startStep1() {
+            document.getElementById('lesson1-menu').style.display = 'none';
+            document.getElementById('step1-screen').style.display = 'block';
+            currentStep1Index = 0;
+            renderStep1Question();
+            window.scrollTo(0, 0);
+        }
+
+        function renderStep1Question() {
+            const question = step1Questions[currentStep1Index];
+            document.getElementById('step1-word').innerText = question.ru;
+            
+            const optionsContainer = document.getElementById('step1-options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'btn';
+                btn.style.backgroundColor = 'white';
+                btn.style.border = '2px solid #ffdf00';
+                btn.style.color = '#333';
+                btn.innerText = option;
+                btn.onclick = () => checkStep1(option, question.pt);
+                optionsContainer.appendChild(btn);
+            });
+            
+            document.getElementById('step1-result').innerHTML = '';
+        }
+
+        function checkStep1(selectedWord, correctWord) {
+            const resultDiv = document.getElementById('step1-result');
+            if (selectedWord === correctWord) {
+                resultDiv.innerHTML = '✅ <span style="color: green;">Muito bem! (Отлично!)</span>';
+                
+                setTimeout(() => {
+                    currentStep1Index++;
+                    if (currentStep1Index < step1Questions.length) {
+                        renderStep1Question();
+                    } else {
+                        resultDiv.innerHTML = '🎉 <span style="color: green;">Поздравляем! Вы прошли все слова!</span>';
+                    }
+                }, 1000);
+            } else {
+                resultDiv.innerHTML = '❌ <span style="color: red;">Неправильно. Попробуй еще раз!</span>';
+            }
+        }
+    </script>
+</body>
+</html>
