@@ -53,15 +53,58 @@
     <div id="lesson1-theory" class="theory-screen">
         <h1>Урок 1. Алфавит</h1>
         <p><strong>Цель:</strong> познакомиться с буквами алфавита, научиться их называть и отличать.</p>
+        
         <h3>Что такое алфавит?</h3>
         <p>Португальский алфавит почти полностью совпадает с английским: он тоже основан на латинице и содержит 26 букв.</p>
+        
         <table>
-            <tr><th>Буква</th><th>Название</th><th>Пример</th></tr>
-            <tr><td>A</td><td>á</td><td>amigo (друг)</td></tr>
-            <tr><td>B</td><td>bê</td><td>bola (мяч)</td></tr>
-            <tr><td>C</td><td>cê</td><td>casa (дом)</td></tr>
+            <tr><th>Буква</th><th>Название</th><th>Пример</th><th>Перевод</th></tr>
+            <tr><td>A</td><td>á</td><td>amigo</td><td>друг</td></tr>
+            <tr><td>B</td><td>bê</td><td>bola</td><td>мяч</td></tr>
+            <tr><td>C</td><td>cê</td><td>casa</td><td>дом</td></tr>
+            <tr><td>D</td><td>dê</td><td>dado</td><td>кубик</td></tr>
+            <tr><td>E</td><td>é</td><td>escola</td><td>школа</td></tr>
+            <tr><td>F</td><td>éfe</td><td>festa</td><td>праздник</td></tr>
+            <tr><td>G</td><td>gê</td><td>gato</td><td>кот</td></tr>
+            <tr><td>H</td><td>agá</td><td>hotel</td><td>отель</td></tr>
+            <tr><td>I</td><td>i</td><td>ilha</td><td>остров</td></tr>
+            <tr><td>J</td><td>jota</td><td>janela</td><td>окно</td></tr>
+            <tr><td>K</td><td>cá</td><td>kiwi</td><td>киви</td></tr>
+            <tr><td>L</td><td>éle</td><td>leite</td><td>молоко</td></tr>
+            <tr><td>M</td><td>ême</td><td>mesa</td><td>стол</td></tr>
+            <tr><td>N</td><td>êne</td><td>noite</td><td>ночь</td></tr>
+            <tr><td>O</td><td>ó</td><td>ovo</td><td>яйцо</td></tr>
+            <tr><td>P</td><td>pê</td><td>pão</td><td>хлеб</td></tr>
+            <tr><td>Q</td><td>quê</td><td>queijo</td><td>сыр</td></tr>
+            <tr><td>R</td><td>érre</td><td>rato</td><td>мышь</td></tr>
+            <tr><td>S</td><td>ésse</td><td>sol</td><td>солнце</td></tr>
+            <tr><td>T</td><td>tê</td><td>terra</td><td>земля</td></tr>
+            <tr><td>U</td><td>u</td><td>uva</td><td>виноград</td></tr>
+            <tr><td>V</td><td>vê</td><td>vaca</td><td>корова</td></tr>
+            <tr><td>W</td><td>dáblio</td><td>web</td><td>веб</td></tr>
+            <tr><td>X</td><td>xis</td><td>xícara</td><td>чашка</td></tr>
+            <tr><td>Y</td><td>ípsilon</td><td>yoga</td><td>йога</td></tr>
+            <tr><td>Z</td><td>zê</td><td>zebra</td><td>зебра</td></tr>
         </table>
-        <p><em>Хотя алфавит включает 26 букв, в традиционных школьных таблицах в Бразилии вы увидите только 23 — буквы K, W и Y официально включили в алфавит лишь в 2009 году.</em></p>
+
+        <h3>Культурный комментарий</h3>
+        <p>Хотя алфавит включает 26 букв, в традиционных школьных таблицах в Бразилии вы увидите только 23 — буквы K, W и Y официально включили в алфавит лишь в 2009 году.</p>
+        
+        <button class="btn" onclick="showPractice1()" style="background-color: #009c3b; color: white; margin-bottom: 10px;">Перейти к практике →</button>
+        <button class="btn" onclick="goBack()">← Назад к карте</button>
+    </div>
+
+    <!-- ЭКРАН С ПРАКТИКОЙ УРОКА 1 (АУДИРОВАНИЕ) -->
+    <div id="lesson1-practice" class="theory-screen">
+        <h1>Практика: Аудирование</h1>
+        <p style="text-align: center;">Послушай слово и выбери правильный перевод.</p>
+        <button class="btn" onclick="playSound('Amigo')" style="background-color: #002776; color: white; font-size: 24px; width: 80px; margin: 10px auto; border-radius: 50%;">🔊</button>
+        <div>
+            <button class="btn" onclick="checkAudio('Друг')" style="background-color: white; border: 2px solid #ffdf00; margin-top: 10px;">Друг</button>
+            <button class="btn" onclick="checkAudio('Дом')" style="background-color: white; border: 2px solid #ffdf00; margin-top: 10px;">Дом</button>
+            <button class="btn" onclick="checkAudio('Мяч')" style="background-color: white; border: 2px solid #ffdf00; margin-top: 10px;">Мяч</button>
+        </div>
+        <div id="result" style="text-align: center; font-weight: bold; margin-top: 20px; min-height: 30px;"></div>
         <button class="btn" onclick="goBack()">← Назад к карте</button>
     </div>
 
@@ -72,10 +115,35 @@
             window.scrollTo(0, 0);
         }
 
+        function showPractice1() {
+            document.getElementById('lesson1-theory').style.display = 'none';
+            document.getElementById('lesson1-practice').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
         function goBack() {
             document.getElementById('lesson1-theory').style.display = 'none';
+            document.getElementById('lesson1-practice').style.display = 'none';
             document.querySelector('.app-container').style.display = 'block';
             window.scrollTo(0, 0);
+        }
+
+        function playSound(word) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'pt-BR';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function checkAudio(selectedWord) {
+            const resultDiv = document.getElementById('result');
+            if (selectedWord === 'Друг') {
+                resultDiv.innerHTML = '✅ <span style="color: green;">Muito bem! (Отлично!)</span>';
+            } else {
+                resultDiv.innerHTML = '❌ <span style="color: red;">Неправильно. Попробуй еще раз!</span>';
+            }
         }
     </script>
 </body>
