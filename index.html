@@ -13,6 +13,29 @@
         }
         .app-container { max-width: 600px; margin: 0 auto; padding: 20px; }
         
+        /* --- СТИЛИ СТАРТОВОГО ЭКРАНА --- */
+        #welcome-screen {
+            text-align: center; 
+            padding: 40px 20px; 
+            background: url('https://images.unsplash.com/photo-1483729558449-99ef09a8c325?q=80&w=1000&auto=format&fit=crop') no-repeat center center; 
+            background-size: cover; 
+            border-radius: 15px; 
+            color: white; 
+            min-height: 80vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;
+        }
+        #welcome-screen h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); margin-bottom: 10px; }
+        #welcome-screen p { font-size: 18px; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); margin-bottom: 30px; }
+        #welcome-screen button {
+            background-color: #ffdf00; color: #333; border: none; 
+            padding: 15px 40px; font-size: 20px; font-weight: bold; 
+            border-radius: 30px; cursor: pointer; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+        }
+
         /* --- СТИЛИ КАРТЫ --- */
         .app-header { text-align: center; margin-bottom: 30px; padding-bottom: 10px; border-bottom: 2px solid #ffdf00; }
         .app-header h1 { color: #009c3b; margin: 0; font-size: 24px; }
@@ -43,21 +66,29 @@
         .screen {
             display: none; 
             background: white; padding: 20px; border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: left;
         }
-        .screen h1 { color: #009c3b; }
+        .screen h1 { color: #009c3b; text-align: center; }
+        
+        /* Стили для текста теории */
+        .theory-text h3 { color: #002776; margin-top: 20px; }
+        .theory-text p { line-height: 1.6; font-size: 16px; }
+        .theory-text table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .theory-text th, .theory-text td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .theory-text th { background-color: #f2f2f2; }
         
         /* Стили для аудирования */
         .audio-option {
             display: block; width: 100%; padding: 15px; margin: 10px 0;
             font-size: 18px; border: 2px solid #ffdf00; border-radius: 10px;
             background: white; cursor: pointer; transition: background 0.2s;
+            text-align: center;
         }
         .audio-option:hover { background: #fff9e6; }
         .audio-btn {
             background-color: #002776; color: white; border: none;
             padding: 15px; border-radius: 50%; cursor: pointer;
-            font-size: 24px; margin-bottom: 20px;
+            font-size: 24px; margin: 10px auto; display: block;
         }
 
         /* Стили для сборки слов */
@@ -74,23 +105,35 @@
             min-height: 50px; border: 2px solid #ffdf00; border-radius: 10px;
             padding: 10px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px;
         }
-        .check-btn {
+        
+        /* Кнопки */
+        .action-btn {
             background-color: #009c3b; color: white; border: none; padding: 12px 24px;
             font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer;
+            display: block; margin: 20px auto 0; width: 100%; max-width: 300px;
         }
+        .action-btn:hover { background-color: #007a2e; }
 
         .back-btn {
             background-color: #999 !important; margin-top: 20px !important;
             font-size: 14px !important; padding: 8px 16px !important;
+            display: block; margin-left: auto; margin-right: auto;
         }
-        #result, #result-build { margin-top: 20px; font-size: 20px; font-weight: bold; min-height: 30px; }
+        #result, #result-build { margin-top: 20px; font-size: 20px; font-weight: bold; min-height: 30px; text-align: center; }
     </style>
 </head>
 <body>
     <div class="app-container">
         
+        <!-- ЭКРАН 0: СТАРТОВАЯ ОБЛОЖКА -->
+        <div id="welcome-screen">
+            <h1>Португальский Бразилии</h1>
+            <p>Уровень A1-A2 • Самоучитель XXI века</p>
+            <button onclick="startLearning()">Начать обучение</button>
+        </div>
+
         <!-- ЭКРАН 1: КАРТА УРОКОВ -->
-        <div id="map-screen" class="screen" style="display: block;">
+        <div id="map-screen" class="screen" style="display: none;">
             <header class="app-header">
                 <h1>Португальский Бразилии</h1>
                 <p>Уровень A1-A2 • Самоучитель XXI века</p>
@@ -98,11 +141,11 @@
             <div class="map-section">
                 <h2>Вводно-фонетический курс</h2>
                 <div class="lesson-path">
-                    <div class="lesson-node active" onclick="openLesson('audio-lesson')">
+                    <div class="lesson-node active" onclick="openScreen('theory-1')">
                         <div class="node-icon">1</div>
-                        <span class="node-label">Урок 1. Аудирование</span>
+                        <span class="node-label">Урок 1. Алфавит</span>
                     </div>
-                    <div class="lesson-node active" onclick="openLesson('build-lesson')" style="border-color: #009c3b;">
+                    <div class="lesson-node active" onclick="openBuildLesson()" style="border-color: #009c3b;">
                         <div class="node-icon">2</div>
                         <span class="node-label">Урок 2. Сборка фразы</span>
                     </div>
@@ -110,10 +153,31 @@
             </div>
         </div>
 
-        <!-- ЭКРАН 2: УРОК АУДИРОВАНИЯ -->
+        <!-- ЭКРАН 2: ТЕОРИЯ УРОКА 1 -->
+        <div id="theory-1" class="screen">
+            <h1>Урок 1. Алфавит</h1>
+            <div class="theory-text">
+                <p><strong>Цель:</strong> познакомиться с буквами алфавита, научиться их называть и отличать.</p>
+                <h3>Что такое алфавит?</h3>
+                <p>Португальский алфавит почти полностью совпадает с английским: он тоже основан на латинице и содержит 26 букв.</p>
+                <table>
+                    <tr><th>Буква</th><th>Название</th><th>Пример слова</th><th>Перевод</th></tr>
+                    <tr><td>A</td><td>á</td><td>amigo</td><td>друг</td></tr>
+                    <tr><td>B</td><td>bê</td><td>bola</td><td>мяч</td></tr>
+                    <tr><td>C</td><td>cê</td><td>casa</td><td>дом</td></tr>
+                    <tr><td>D</td><td>dê</td><td>dado</td><td>кубик</td></tr>
+                </table>
+                <h3>Культурный комментарий</h3>
+                <p>Хотя алфавит включает 26 букв, в традиционных школьных таблицах в Бразилии вы увидите только 23 — буквы K, W и Y официально включили в алфавит лишь в 2009 году.</p>
+            </div>
+            <button class="action-btn" onclick="openAudioLesson()">Перейти к практике →</button>
+            <button class="back-btn" onclick="goBack()">← Назад к карте</button>
+        </div>
+
+        <!-- ЭКРАН 3: ПРАКТИКА УРОКА 1 (АУДИРОВАНИЕ) -->
         <div id="audio-lesson" class="screen">
-            <h1>Урок 1: Аудирование</h1>
-            <p>Послушай слово и выбери правильный перевод.</p>
+            <h1>Практика: Аудирование</h1>
+            <p style="text-align: center;">Послушай слово и выбери правильный перевод.</p>
             <button class="audio-btn" onclick="playSound('Amigo')">🔊</button>
             <div>
                 <button class="audio-option" onclick="checkAudio('Amigo')">Друг</button>
@@ -124,21 +188,18 @@
             <button class="back-btn" onclick="goBack()">← Назад к карте</button>
         </div>
 
-        <!-- ЭКРАН 3: УРОК СБОРКИ -->
+        <!-- ЭКРАН 4: УРОК 2 (СБОРКА) -->
         <div id="build-lesson" class="screen">
             <h1>Урок 2: Сборка фразы</h1>
-            <p>Собери предложение: <strong>«Я студент»</strong></p>
-            
+            <p style="text-align: center;">Собери предложение: <strong>«Я студент»</strong></p>
             <div class="sentence-area" id="sentence-area"></div>
-            
             <div class="word-bank" id="word-bank">
                 <div class="word-chip" onclick="addWord('Eu', this)">Eu</div>
                 <div class="word-chip" onclick="addWord('sou', this)">sou</div>
                 <div class="word-chip" onclick="addWord('estudante', this)">estudante</div>
                 <div class="word-chip" onclick="addWord('você', this)">você</div>
             </div>
-            
-            <button class="check-btn" onclick="checkBuild()">Проверить</button>
+            <button class="action-btn" onclick="checkBuild()">Проверить</button>
             <div id="result-build"></div>
             <button class="back-btn" onclick="goBack()">← Назад к карте</button>
         </div>
@@ -146,30 +207,29 @@
     </div>
 
     <script>
-        // --- НАВИГАЦИЯ И СБРОС ---
-        function openLesson(lessonId) {
+        // --- ЛОГИКА СТАРТОВОГО ЭКРАНА ---
+        function startLearning() {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('map-screen').style.display = 'block';
+        }
+
+        // --- НАВИГАЦИЯ ---
+        function openScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
-            document.getElementById(lessonId).style.display = 'block';
-            
-            // Полный сброс для урока сборки
-            if (lessonId === 'build-lesson') {
-                document.getElementById('sentence-area').innerHTML = '';
-                const bank = document.getElementById('word-bank');
-                bank.innerHTML = `
-                    <div class="word-chip" onclick="addWord('Eu', this)">Eu</div>
-                    <div class="word-chip" onclick="addWord('sou', this)">sou</div>
-                    <div class="word-chip" onclick="addWord('estudante', this)">estudante</div>
-                    <div class="word-chip" onclick="addWord('você', this)">você</div>
-                `;
-            }
-            // Сброс для аудирования
-            document.getElementById('result').innerHTML = '';
-            document.getElementById('result-build').innerHTML = '';
+            document.getElementById(screenId).style.display = 'block';
+            window.scrollTo(0, 0);
         }
 
         function goBack() {
             document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
             document.getElementById('map-screen').style.display = 'block';
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('result-build').innerHTML = '';
+        }
+
+        function openAudioLesson() {
+            openScreen('audio-lesson');
+            document.getElementById('result').innerHTML = '';
         }
 
         // --- ЛОГИКА АУДИРОВАНИЯ ---
@@ -197,19 +257,31 @@
             }
         }
 
-        // --- ЛОГИКА СБОРКИ СЛОВ ---
+        // --- ЛОГИКА СБОРКИ СЛОВ (УРОК 2) ---
+        function openBuildLesson() {
+            openScreen('build-lesson');
+            document.getElementById('sentence-area').innerHTML = '';
+            const bank = document.getElementById('word-bank');
+            bank.innerHTML = `
+                <div class="word-chip" onclick="addWord('Eu', this)">Eu</div>
+                <div class="word-chip" onclick="addWord('sou', this)">sou</div>
+                <div class="word-chip" onclick="addWord('estudante', this)">estudante</div>
+                <div class="word-chip" onclick="addWord('você', this)">você</div>
+            `;
+            document.getElementById('result-build').innerHTML = '';
+        }
+
         function addWord(word, element) {
             const sentenceArea = document.getElementById('sentence-area');
             const newChip = document.createElement('div');
             newChip.className = 'word-chip';
             newChip.innerText = word;
-            // Клик по слову в предложении возвращает его обратно в банк
             newChip.onclick = function() {
                 this.remove();
-                element.style.display = 'inline-block'; // Возвращаем в банк
+                element.style.display = 'inline-block';
             };
             sentenceArea.appendChild(newChip);
-            element.style.display = 'none'; // Скрываем из банка
+            element.style.display = 'none';
         }
 
         function checkBuild() {
@@ -225,14 +297,5 @@
             }
         }
     </script>
-    <!-- Подключение манифеста и Service Worker для установки приложения -->
-<link rel="manifest" href="manifest.json">
-<script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js');
-        });
-    }
-</script>
 </body>
 </html>
