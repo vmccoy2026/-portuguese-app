@@ -32,6 +32,16 @@
         }
         .step-card h3 { margin: 0; color: #333; }
         .step-card p { margin: 5px 0 0 0; color: #666; font-size: 14px; }
+
+        /* Стили для карточек */
+        .flashcard {
+            background: #fff; border: 2px solid #ffdf00; border-radius: 15px;
+            padding: 40px; text-align: center; font-size: 24px; font-weight: bold;
+            cursor: pointer; margin: 20px 0; min-height: 100px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .flashcard.flipped { background: #e0f2f1; color: #009c3b; border-color: #009c3b; }
     </style>
 </head>
 <body>
@@ -59,46 +69,139 @@
         <p style="text-align: center; color: #666;">Пройди все шаги, чтобы завершить урок</p>
 
         <div class="step-card" style="border-left-color: #009c3b;">
-            <h3>Шаг 1. Слова (RU → PT)</h3>
-            <p>Выбери правильный перевод</p>
-            <button class="btn" onclick="startStep1()" style="margin-top: 10px; background-color: #009c3b; color: white;">Начать шаг 1</button>
+            <h3>Шаг 1. Слова (Карточки)</h3>
+            <p>Запомни новые слова</p>
+            <button class="btn" onclick="startFlashcards()" style="margin-top: 10px; background-color: #009c3b; color: white;">Начать карточки</button>
         </div>
         
         <div class="step-card" style="border-left-color: #ffdf00;">
-            <h3>Шаг 2. Слова (PT → RU)</h3>
-            <p>Выбери правильный перевод</p>
-        </div>
-
-        <div class="step-card" style="border-left-color: #ffdf00;">
-            <h3>Шаг 3. Мэтчинг</h3>
-            <p>Соедини слова с переводами</p>
+            <h3>Шаг 1. Слова (Тест)</h3>
+            <p>Проверь себя</p>
+            <button class="btn" onclick="startStep1()" style="margin-top: 10px; background-color: #ffdf00; color: #333;">Начать тест</button>
         </div>
 
         <div class="step-card" style="border-left-color: #999;">
-            <h3>Шаг 4. Пазл</h3>
-            <p>Собери фразу из слов</p>
+            <h3>Шаг 2. Мэтчинг</h3>
+            <p>Соедини слова с переводами</p>
         </div>
 
         <button class="btn" onclick="goBack()" style="background-color: #999; color: white;">← Назад к карте</button>
     </div>
 
+    <!-- ЭКРАН КАРТОЧЕК (ШАГ 1) -->
+    <div id="flashcards-screen" class="theory-screen" style="display: none;">
+        <h1>Карточки</h1>
+        <p style="text-align: center; color: #666;">Нажми на карточку, чтобы перевернуть</p>
+        
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+            <span id="card-text">Olá</span>
+        </div>
+
+        <button class="btn" onclick="nextCard()" style="background-color: #009c3b; color: white;">Следующая карточка →</button>
+        <button class="btn" onclick="openLessonMenu()" style="background-color: #999; color: white; margin-top: 10px;">← Назад к шагам</button>
+    </div>
+
+    <!-- ЭКРАН ТЕСТА (ШАГ 1) -->
+    <div id="step1-screen" class="theory-screen" style="display: none;">
+        <h1>Шаг 1. Тест</h1>
+        <p style="text-align: center; color: #666;">Выбери правильный перевод слова</p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <h2 style="font-size: 32px; color: #333; margin-bottom: 20px;">Привет</h2>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button class="btn" onclick="checkStep1('Olá')" style="background-color: white; border: 2px solid #ffdf00; color: #333;">Olá</button>
+            <button class="btn" onclick="checkStep1('Tudo bem')" style="background-color: white; border: 2px solid #ffdf00; color: #333;">Tudo bem</button>
+            <button class="btn" onclick="checkStep1('Obrigado')" style="background-color: white; border: 2px solid #ffdf00; color: #333;">Obrigado</button>
+            <button class="btn" onclick="checkStep1('Prazer')" style="background-color: white; border: 2px solid #ffdf00; color: #333;">Prazer</button>
+        </div>
+
+        <div id="step1-result" style="text-align: center; font-weight: bold; margin-top: 20px; min-height: 30px;"></div>
+        
+        <button class="btn" onclick="openLessonMenu()" style="background-color: #999; color: white; margin-top: 20px;">← Назад к шагам</button>
+    </div>
+
     <script>
         // --- НАВИГАЦИЯ ---
         function openLessonMenu() {
+            document.querySelectorAll('.theory-screen').forEach(s => s.style.display = 'none');
             document.querySelector('.app-container').style.display = 'none';
             document.getElementById('lesson1-menu').style.display = 'block';
             window.scrollTo(0, 0);
         }
 
         function goBack() {
+            document.querySelectorAll('.theory-screen').forEach(s => s.style.display = 'none');
             document.getElementById('lesson1-menu').style.display = 'none';
             document.querySelector('.app-container').style.display = 'block';
             window.scrollTo(0, 0);
         }
 
-        // --- ФУНКЦИЯ ДЛЯ ШАГА 1 (пока просто заглушка) ---
+        // --- ЛОГИКА КАРТОЧЕК ---
+        const words = [
+            { pt: 'Olá', ru: 'Привет' },
+            { pt: 'Tudo bem', ru: 'Как дела?' },
+            { pt: 'Obrigado', ru: 'Спасибо' },
+            { pt: 'Prazer', ru: 'Приятно познакомиться' }
+        ];
+        let currentCardIndex = 0;
+        let isFlipped = false;
+
+        function startFlashcards() {
+            document.getElementById('lesson1-menu').style.display = 'none';
+            document.getElementById('flashcards-screen').style.display = 'block';
+            currentCardIndex = 0;
+            isFlipped = false;
+            updateCard();
+            window.scrollTo(0, 0);
+        }
+
+        function updateCard() {
+            const cardText = document.getElementById('card-text');
+            const card = document.getElementById('flashcard');
+            card.classList.remove('flipped');
+            isFlipped = false;
+            cardText.innerText = words[currentCardIndex].pt;
+        }
+
+        function flipCard() {
+            const cardText = document.getElementById('card-text');
+            const card = document.getElementById('flashcard');
+            if (!isFlipped) {
+                cardText.innerText = words[currentCardIndex].ru;
+                card.classList.add('flipped');
+                isFlipped = true;
+            } else {
+                cardText.innerText = words[currentCardIndex].pt;
+                card.classList.remove('flipped');
+                isFlipped = false;
+            }
+        }
+
+        function nextCard() {
+            currentCardIndex++;
+            if (currentCardIndex >= words.length) {
+                currentCardIndex = 0; // Возвращаемся в начало
+            }
+            updateCard();
+        }
+
+        // --- ЛОГИКА ТЕСТА (ШАГ 1) ---
         function startStep1() {
-            alert('Здесь будет Шаг 1: Проверка слов!');
+            document.getElementById('lesson1-menu').style.display = 'none';
+            document.getElementById('step1-screen').style.display = 'block';
+            document.getElementById('step1-result').innerHTML = '';
+            window.scrollTo(0, 0);
+        }
+
+        function checkStep1(selectedWord) {
+            const resultDiv = document.getElementById('step1-result');
+            if (selectedWord === 'Olá') {
+                resultDiv.innerHTML = '✅ <span style="color: green;">Muito bem! (Отлично!)</span>';
+            } else {
+                resultDiv.innerHTML = '❌ <span style="color: red;">Неправильно. Попробуй еще раз!</span>';
+            }
         }
     </script>
 </body>
