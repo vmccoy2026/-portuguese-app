@@ -175,22 +175,33 @@
         }
 
         function checkStep1(selectedWord, correctWord) {
-            const resultDiv = document.getElementById('step1-result');
-            if (selectedWord === correctWord) {
-                resultDiv.innerHTML = '✅ <span style="color: green;">Muito bem! (Отлично!)</span>';
-                
-                setTimeout(() => {
-                    currentStep1Index++;
-                    if (currentStep1Index < step1Questions.length) {
-                        renderStep1Question();
-                    } else {
-                        resultDiv.innerHTML = '🎉 <span style="color: green;">Поздравляем! Вы прошли все слова!</span>';
-                    }
-                }, 1000);
+    const resultDiv = document.getElementById('step1-result');
+    if (selectedWord === correctWord) {
+        resultDiv.innerHTML = '✅ <span style="color: green;">Muito bem! (Отлично!)</span>';
+        
+        // Создаем кнопку "Следующий вопрос"
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'btn';
+        nextBtn.style.backgroundColor = '#009c3b';
+        nextBtn.style.color = 'white';
+        nextBtn.style.marginTop = '15px';
+        nextBtn.innerText = 'Следующий вопрос →';
+        
+        nextBtn.onclick = () => {
+            currentStep1Index++;
+            if (currentStep1Index < step1Questions.length) {
+                renderStep1Question();
             } else {
-                resultDiv.innerHTML = '❌ <span style="color: red;">Неправильно. Попробуй еще раз!</span>';
+                resultDiv.innerHTML = '🎉 <span style="color: green;">Поздравляем! Вы прошли все слова!</span>';
             }
-        }
+        };
+        
+        // Добавляем кнопку после результата
+        resultDiv.appendChild(nextBtn);
+    } else {
+        resultDiv.innerHTML = '❌ <span style="color: red;">Неправильно. Попробуй еще раз!</span>';
+    }
+}
     </script>
 </body>
 </html>
