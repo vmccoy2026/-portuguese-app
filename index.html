@@ -4,9 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Португальский Бразилии</title>
+    <style>
+        body { 
+            margin: 0; padding: 0; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f7f6; color: #333; 
+        }
+        .app-container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        
+        .btn {
+            display: block; width: 100%; padding: 15px; 
+            background-color: #ffdf00; color: #333; 
+            text-align: center; font-weight: bold; font-size: 18px;
+            border: none; border-radius: 10px; cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .btn:hover { background-color: #e6c800; }
+
+        .lesson-card {
+            background: white; padding: 20px; border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 15px;
+            border-left: 5px solid #009c3b;
+        }
+        .lesson-card h2 { margin: 0 0 10px 0; color: #009c3b; font-size: 20px; }
+        .lesson-card p { margin: 0; color: #666; font-size: 14px; }
+    </style>
 </head>
 <body>
-    <h1>Приложение работает!</h1>
-    <p>Скоро здесь появятся уроки.</p>
+    <div class="app-container">
+        <h1 style="text-align: center; color: #009c3b;">Португальский Бразилии</h1>
+        <p style="text-align: center; color: #666;">Уровень A1-A2 • Самоучитель XXI века</p>
+
+        <div class="lesson-card">
+            <h2>Урок 1. Алфавит</h2>
+            <p>Научиться читать и произносить буквы.</p>
+            <button class="btn" onclick="alert('Скоро здесь будет урок!')">Начать урок</button>
+        </div>
+
+        <div class="lesson-card">
+            <h2>Урок 2. Гласные</h2>
+            <p>Различать гласные звуки под ударением.</p>
+            <button class="btn" onclick="alert('Скоро здесь будет урок!')">Начать урок</button>
+        </div>
+    </div>
 </body>
 </html>
