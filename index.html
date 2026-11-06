@@ -25,24 +25,25 @@
 
         .theory-screen { display: none; background: white; padding: 20px; border-radius: 15px; margin-top: 20px; text-align: left; }
         .theory-screen h1 { color: #009c3b; text-align: center; }
-        .theory-screen h3 { color: #002776; }
-        .theory-screen table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        .theory-screen th, .theory-screen td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        .theory-screen th { background-color: #f2f2f2; }
+        
+        .step-card {
+            background: white; padding: 15px; border-radius: 10px; 
+            margin-bottom: 10px; border-left: 5px solid #009c3b;
+        }
+        .step-card h3 { margin: 0; color: #333; }
+        .step-card p { margin: 5px 0 0 0; color: #666; font-size: 14px; }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <div style="text-align: center; margin-bottom: 20px;">
-    <a href="https://docs.google.com/viewer?url=https://vmccoy2026.github.io/-portuguese-app/MyPortugal.pdf&embedded=true" target="_blank" class="btn" style="background-color: #002776; color: white; margin-top: 0; text-decoration: none; display: block; text-align: center;">📖 Открыть учебник (PDF)</a>
-</div>
         <h1 style="text-align: center; color: #009c3b;">Португальский Бразилии</h1>
         <p style="text-align: center; color: #666;">Уровень A1-A2 • Самоучитель XXI века</p>
 
+        <!-- КАРТОЧКИ УРОКОВ -->
         <div class="lesson-card">
-            <h2>Урок 1. Алфавит</h2>
-            <p>Научиться читать и произносить буквы.</p>
-            <button class="btn" onclick="showTheory1()">Начать урок</button>
+            <h2>Урок 1. Первые слова</h2>
+            <p>Приветствия и глагол ser (быть).</p>
+            <button class="btn" onclick="openLessonMenu()">Начать урок</button>
         </div>
 
         <div class="lesson-card">
@@ -52,120 +53,53 @@
         </div>
     </div>
 
-    <!-- ЭКРАН С ТЕОРИЕЙ УРОКА 1 -->
-    <div id="lesson1-theory" class="theory-screen">
-        <h1>Урок 1. Алфавит</h1>
-        <p><strong>Цель:</strong> познакомиться с буквами алфавита, научиться их называть и отличать.</p>
-        
-        <h3>Что такое алфавит?</h3>
-        <p>Португальский алфавит почти полностью совпадает с английским: он тоже основан на латинице и содержит 26 букв.</p>
-        
-        <table>
-            <tr><th>Буква</th><th>Название</th><th>Пример</th><th>Перевод</th></tr>
-            <tr><td>A</td><td>á</td><td>amigo</td><td>друг</td></tr>
-            <tr><td>B</td><td>bê</td><td>bola</td><td>мяч</td></tr>
-            <tr><td>C</td><td>cê</td><td>casa</td><td>дом</td></tr>
-            <tr><td>D</td><td>dê</td><td>dado</td><td>кубик</td></tr>
-            <tr><td>E</td><td>é</td><td>escola</td><td>школа</td></tr>
-            <tr><td>F</td><td>éfe</td><td>festa</td><td>праздник</td></tr>
-            <tr><td>G</td><td>gê</td><td>gato</td><td>кот</td></tr>
-            <tr><td>H</td><td>agá</td><td>hotel</td><td>отель</td></tr>
-            <tr><td>I</td><td>i</td><td>ilha</td><td>остров</td></tr>
-            <tr><td>J</td><td>jota</td><td>janela</td><td>окно</td></tr>
-            <tr><td>K</td><td>cá</td><td>kiwi</td><td>киви</td></tr>
-            <tr><td>L</td><td>éle</td><td>leite</td><td>молоко</td></tr>
-            <tr><td>M</td><td>ême</td><td>mesa</td><td>стол</td></tr>
-            <tr><td>N</td><td>êne</td><td>noite</td><td>ночь</td></tr>
-            <tr><td>O</td><td>ó</td><td>ovo</td><td>яйцо</td></tr>
-            <tr><td>P</td><td>pê</td><td>pão</td><td>хлеб</td></tr>
-            <tr><td>Q</td><td>quê</td><td>queijo</td><td>сыр</td></tr>
-            <tr><td>R</td><td>érre</td><td>rato</td><td>мышь</td></tr>
-            <tr><td>S</td><td>ésse</td><td>sol</td><td>солнце</td></tr>
-            <tr><td>T</td><td>tê</td><td>terra</td><td>земля</td></tr>
-            <tr><td>U</td><td>u</td><td>uva</td><td>виноград</td></tr>
-            <tr><td>V</td><td>vê</td><td>vaca</td><td>корова</td></tr>
-            <tr><td>W</td><td>dáblio</td><td>web</td><td>веб</td></tr>
-            <tr><td>X</td><td>xis</td><td>xícara</td><td>чашка</td></tr>
-            <tr><td>Y</td><td>ípsilon</td><td>yoga</td><td>йога</td></tr>
-            <tr><td>Z</td><td>zê</td><td>zebra</td><td>зебра</td></tr>
-        </table>
+    <!-- ЭКРАН СО СПИСКОМ ШАГОВ УРОКА 1 -->
+    <div id="lesson1-menu" class="theory-screen" style="display: none;">
+        <h1>Урок 1. Первые слова</h1>
+        <p style="text-align: center; color: #666;">Пройди все шаги, чтобы завершить урок</p>
 
-        <h3>Культурный комментарий</h3>
-        <p>Хотя алфавит включает 26 букв, в традиционных школьных таблицах в Бразилии вы увидите только 23 — буквы K, W и Y официально включили в алфавит лишь в 2009 году.</p>
-        
-        <button class="btn" onclick="showPractice1()" style="background-color: #009c3b; color: white; margin-bottom: 10px;">Перейти к практике →</button>
-        <button class="btn" onclick="goBack()">← Назад к карте</button>
-    </div>
-
-    <!-- ЭКРАН С ПРАКТИКОЙ УРОКА 1 (АУДИРОВАНИЕ) -->
-    <div id="lesson1-practice" class="theory-screen">
-        <h1>Практика: Аудирование</h1>
-        <p style="text-align: center;">Послушай слово и выбери правильный перевод.</p>
-        <button class="btn" onclick="playSound('Amigo')" style="background-color: #002776; color: white; font-size: 24px; width: 80px; margin: 10px auto; border-radius: 50%;">🔊</button>
-        <div>
-            <button class="btn" onclick="checkAudio('Друг')" style="background-color: white; border: 2px solid #ffdf00; margin-top: 10px;">Друг</button>
-            <button class="btn" onclick="checkAudio('Дом')" style="background-color: white; border: 2px solid #ffdf00; margin-top: 10px;">Дом</button>
-            <button class="btn" onclick="checkAudio('Мяч')" style="background-color: white; border: 2px solid #ffdf00; margin-top: 10px;">Мяч</button>
+        <div class="step-card" style="border-left-color: #009c3b;">
+            <h3>Шаг 1. Слова (RU → PT)</h3>
+            <p>Выбери правильный перевод</p>
+            <button class="btn" onclick="startStep1()" style="margin-top: 10px; background-color: #009c3b; color: white;">Начать шаг 1</button>
         </div>
-        <div id="result" style="text-align: center; font-weight: bold; margin-top: 20px; min-height: 30px;"></div>
-        <button class="btn" onclick="goBack()">← Назад к карте</button>
+        
+        <div class="step-card" style="border-left-color: #ffdf00;">
+            <h3>Шаг 2. Слова (PT → RU)</h3>
+            <p>Выбери правильный перевод</p>
+        </div>
+
+        <div class="step-card" style="border-left-color: #ffdf00;">
+            <h3>Шаг 3. Мэтчинг</h3>
+            <p>Соедини слова с переводами</p>
+        </div>
+
+        <div class="step-card" style="border-left-color: #999;">
+            <h3>Шаг 4. Пазл</h3>
+            <p>Собери фразу из слов</p>
+        </div>
+
+        <button class="btn" onclick="goBack()" style="background-color: #999; color: white;">← Назад к карте</button>
     </div>
 
     <script>
-        function showTheory1() {
+        // --- НАВИГАЦИЯ ---
+        function openLessonMenu() {
             document.querySelector('.app-container').style.display = 'none';
-            document.getElementById('lesson1-theory').style.display = 'block';
-            window.scrollTo(0, 0);
-        }
-
-        function showPractice1() {
-            document.getElementById('lesson1-theory').style.display = 'none';
-            document.getElementById('lesson1-practice').style.display = 'block';
+            document.getElementById('lesson1-menu').style.display = 'block';
             window.scrollTo(0, 0);
         }
 
         function goBack() {
-            document.getElementById('lesson1-theory').style.display = 'none';
-            document.getElementById('lesson1-practice').style.display = 'none';
+            document.getElementById('lesson1-menu').style.display = 'none';
             document.querySelector('.app-container').style.display = 'block';
             window.scrollTo(0, 0);
         }
 
-        function playSound(word) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(word);
-                utterance.lang = 'pt-BR';
-                utterance.rate = 0.9;
-                window.speechSynthesis.speak(utterance);
-            }
+        // --- ФУНКЦИЯ ДЛЯ ШАГА 1 (пока просто заглушка) ---
+        function startStep1() {
+            alert('Здесь будет Шаг 1: Проверка слов!');
         }
-
-        function checkAudio(selectedWord) {
-            const resultDiv = document.getElementById('result');
-            if (selectedWord === 'Друг') {
-                resultDiv.innerHTML = '✅ <span style="color: green;">Muito bem! (Отлично!)</span>';
-            } else {
-                resultDiv.innerHTML = '❌ <span style="color: red;">Неправильно. Попробуй еще раз!</span>';
-            }
-        }
-        function openPDF() {
-    document.querySelector('.app-container').style.display = 'none';
-    document.getElementById('pdf-screen').style.display = 'block';
-    window.scrollTo(0, 0);
-}
-
-function closePDF() {
-    document.getElementById('pdf-screen').style.display = 'none';
-    document.querySelector('.app-container').style.display = 'block';
-    window.scrollTo(0, 0);
-}
     </script>
-    <!-- ЭКРАН С PDF УЧЕБНИКОМ -->
-<div id="pdf-screen" class="theory-screen" style="display: none; padding: 0; background: #333;">
-    <div style="background: #002776; padding: 10px; text-align: center;">
-        <button class="btn" onclick="closePDF()" style="background-color: #ffdf00; color: #333; margin: 0; padding: 10px; font-size: 16px;">← Закрыть учебник</button>
-    </div>
-    <iframe src="MyPortugal.pdf" style="width: 100%; height: 85vh; border: none;"></iframe>
-</div>
 </body>
 </html>
