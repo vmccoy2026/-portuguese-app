@@ -5,20 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Португальский Бразилии</title>
     <style>
-        body { 
-            margin: 0; padding: 0; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f4f7f6; color: #333; 
-        }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; }
         .app-container { max-width: 600px; margin: 0 auto; padding: 20px; }
         
         .btn {
-            display: block; width: 100%; padding: 15px; 
-            background-color: #ffdf00; color: #333; 
-            text-align: center; font-weight: bold; font-size: 18px;
-            border: none; border-radius: 10px; cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-top: 20px;
+            display: block; width: 100%; padding: 15px; background-color: #ffdf00; color: #333; 
+            text-align: center; font-weight: bold; font-size: 18px; border: none; border-radius: 10px; 
+            cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-top: 20px;
         }
         .btn:hover { background-color: #e6c800; }
 
@@ -29,6 +22,13 @@
         }
         .lesson-card h2 { margin: 0 0 10px 0; color: #009c3b; font-size: 20px; }
         .lesson-card p { margin: 0; color: #666; font-size: 14px; }
+
+        .theory-screen { display: none; background: white; padding: 20px; border-radius: 15px; margin-top: 20px; text-align: left; }
+        .theory-screen h1 { color: #009c3b; text-align: center; }
+        .theory-screen h3 { color: #002776; }
+        .theory-screen table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .theory-screen th, .theory-screen td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .theory-screen th { background-color: #f2f2f2; }
     </style>
 </head>
 <body>
@@ -39,14 +39,44 @@
         <div class="lesson-card">
             <h2>Урок 1. Алфавит</h2>
             <p>Научиться читать и произносить буквы.</p>
-            <button class="btn" onclick="alert('Скоро здесь будет урок!')">Начать урок</button>
+            <button class="btn" onclick="showTheory1()">Начать урок</button>
         </div>
 
         <div class="lesson-card">
             <h2>Урок 2. Гласные</h2>
             <p>Различать гласные звуки под ударением.</p>
-            <button class="btn" onclick="alert('Скоро здесь будет урок!')">Начать урок</button>
+            <button class="btn" onclick="alert('Урок 2 скоро появится!')">Начать урок</button>
         </div>
     </div>
+
+    <!-- ЭКРАН С ТЕОРИЕЙ УРОКА 1 -->
+    <div id="lesson1-theory" class="theory-screen">
+        <h1>Урок 1. Алфавит</h1>
+        <p><strong>Цель:</strong> познакомиться с буквами алфавита, научиться их называть и отличать.</p>
+        <h3>Что такое алфавит?</h3>
+        <p>Португальский алфавит почти полностью совпадает с английским: он тоже основан на латинице и содержит 26 букв.</p>
+        <table>
+            <tr><th>Буква</th><th>Название</th><th>Пример</th></tr>
+            <tr><td>A</td><td>á</td><td>amigo (друг)</td></tr>
+            <tr><td>B</td><td>bê</td><td>bola (мяч)</td></tr>
+            <tr><td>C</td><td>cê</td><td>casa (дом)</td></tr>
+        </table>
+        <p><em>Хотя алфавит включает 26 букв, в традиционных школьных таблицах в Бразилии вы увидите только 23 — буквы K, W и Y официально включили в алфавит лишь в 2009 году.</em></p>
+        <button class="btn" onclick="goBack()">← Назад к карте</button>
+    </div>
+
+    <script>
+        function showTheory1() {
+            document.querySelector('.app-container').style.display = 'none';
+            document.getElementById('lesson1-theory').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function goBack() {
+            document.getElementById('lesson1-theory').style.display = 'none';
+            document.querySelector('.app-container').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    </script>
 </body>
 </html>
